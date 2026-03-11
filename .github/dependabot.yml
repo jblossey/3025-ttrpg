@@ -1,0 +1,85 @@
+version: 2
+
+updates:
+  # ── npm ────────────────────────────────────────────────────────────────────
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 20
+    pull-request-branch-name:
+      separator: "/"
+
+    # Patch: auto-merge individual PRs
+    groups:
+      npm-patch-updates:
+        update-types:
+          - "patch"
+
+    # Minor: group all into a single PR
+      npm-minor-updates:
+        update-types:
+          - "minor"
+
+    # Major: one PR per dependency (no group → default behaviour)
+
+    ignore: []
+
+    # Keep the PR queue tidy
+    labels:
+      - "dependencies"
+    milestone: ~
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+
+  # ── Docker ─────────────────────────────────────────────────────────────────
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    pull-request-branch-name:
+      separator: "/"
+
+    groups:
+      docker-patch-updates:
+        update-types:
+          - "patch"
+
+      docker-minor-updates:
+        update-types:
+          - "minor"
+
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+  # ── GitHub Actions ─────────────────────────────────────────────────────────
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    pull-request-branch-name:
+      separator: "/"
+
+    groups:
+      actions-patch-updates:
+        update-types:
+          - "patch"
+
+      actions-minor-updates:
+        update-types:
+          - "minor"
+
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
