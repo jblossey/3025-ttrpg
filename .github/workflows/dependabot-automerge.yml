@@ -10,6 +10,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 jobs:
   # ── Auto-merge patch updates ────────────────────────────────────────────────
@@ -65,7 +66,7 @@ jobs:
                 owner,
                 repo,
                 issue_number: pr.number,
-                body: "⏰ Closing this Dependabot PR after 7 days without merge. It will be re-opened on the next scheduled run if the update is still applicable.",
+                body: "⏰ Closing this Dependabot PR after 7 days without merge. If this update is still needed, you can re-open the PR manually or trigger a new Dependabot update.",
               });
 
               await github.rest.pulls.update({
