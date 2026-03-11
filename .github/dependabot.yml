@@ -23,8 +23,6 @@ updates:
 
     # Major: one PR per dependency (no group → default behaviour)
 
-    ignore: []
-
     # Keep the PR queue tidy
     labels:
       - "dependencies"
