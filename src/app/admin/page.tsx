@@ -3,8 +3,16 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { HUDFrame } from "@/components/ui/hud-frame";
 import { AdminActions } from "./admin-actions";
+import { CreateUserForm } from "./create-user-form";
+import { UserFilters, UserPagination } from "./user-filters";
 
-export default async function AdminPage() {
+const PAGE_SIZE = 20;
+
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | undefined>>;
+}) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -13,14 +21,42 @@ export default async function AdminPage() {
     redirect("/");
   }
 
-  const users = await auth.api.listUsers({
+  const params = await searchParams;
+  const search = params.search ?? "";
+  const searchField = (params.field as "name" | "email") || "name";
+  const offset = Number(params.offset ?? "0");
+  const sortBy = params.sort ?? "createdAt";
+  const sortDirection = (params.dir as "asc" | "desc") ?? "desc";
+
+  const query: Record<string, unknown> = {
+    limit: PAGE_SIZE,
+    offset,
+    sortBy,
+    sortDirection,
+  };
+
+  if (search) {
+    query.searchValue = search;
+    query.searchField = searchField;
+    query.searchOperator = "contains";
+  }
+
+  const result = await auth.api.listUsers({
     headers: await headers(),
-    query: { limit: 100 },
+    query,
   });
+
+  const users = result.users as Array<
+    (typeof result.users)[number] & {
+      username?: string | null;
+      banReason?: string | null;
+    }
+  >;
+  const total = result.total ?? users.length;
 
   return (
     <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-4xl space-y-6">
+      <div className="mx-auto max-w-5xl space-y-6">
         <HUDFrame label="Admin Console">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -32,24 +68,36 @@ export default async function AdminPage() {
               </p>
             </div>
 
+            {/* Search & Create */}
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <UserFilters />
+              <CreateUserForm />
+            </div>
+
+            {/* User table */}
             <div className="overflow-x-auto">
               <table className="w-full font-mono text-xs">
                 <thead>
                   <tr className="border-b border-primary/20 text-left text-[9px] uppercase tracking-widest text-muted-foreground">
                     <th className="pb-2 pr-4">Name</th>
+                    <th className="pb-2 pr-4">Username</th>
                     <th className="pb-2 pr-4">Email</th>
                     <th className="pb-2 pr-4">Role</th>
                     <th className="pb-2 pr-4">Status</th>
+                    <th className="pb-2 pr-4">Created</th>
                     <th className="pb-2">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {users.users.map((user) => (
+                  {users.map((user) => (
                     <tr
                       key={user.id}
-                      className="border-b border-primary/10 text-foreground/80"
+                      className="border-b border-primary/10 align-top text-foreground/80"
                     >
                       <td className="py-2 pr-4">{user.name}</td>
+                      <td className="py-2 pr-4 text-foreground/50">
+                        {user.username ?? "—"}
+                      </td>
                       <td className="py-2 pr-4 text-foreground/50">
                         {user.email}
                       </td>
@@ -66,14 +114,26 @@ export default async function AdminPage() {
                       </td>
                       <td className="py-2 pr-4">
                         {user.banned ? (
-                          <span className="text-destructive">Banned</span>
+                          <span className="text-destructive">
+                            Banned
+                            {user.banReason && (
+                              <span className="block text-[9px] text-destructive/60">
+                                {user.banReason}
+                              </span>
+                            )}
+                          </span>
                         ) : (
                           <span className="text-green-500">Active</span>
                         )}
                       </td>
+                      <td className="py-2 pr-4 text-[10px] text-foreground/40">
+                        {new Date(user.createdAt).toLocaleDateString()}
+                      </td>
                       <td className="py-2">
                         <AdminActions
                           userId={user.id}
+                          userName={user.name}
+                          userEmail={user.email}
                           isBanned={user.banned ?? false}
                           role={user.role ?? "user"}
                           isCurrentUser={user.id === session.user.id}
@@ -81,9 +141,26 @@ export default async function AdminPage() {
                       </td>
                     </tr>
                   ))}
+                  {users.length === 0 && (
+                    <tr>
+                      <td
+                        colSpan={7}
+                        className="py-8 text-center text-foreground/40"
+                      >
+                        No users found
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
+
+            {/* Pagination */}
+            <UserPagination
+              total={total}
+              limit={PAGE_SIZE}
+              offset={offset}
+            />
           </div>
         </HUDFrame>
       </div>
