@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: 3025-ttrpg
+  namespace: 3025-ttrpg
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: "traefik"
+  tls:
+    - hosts:
+        - 3025.jannisblossey.com
+      secretName: 3025-ttrpg-tls
+  rules:
+    - host: 3025.jannisblossey.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: 3025-ttrpg
+                port:
+                  number: 80
