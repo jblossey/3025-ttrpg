@@ -1,0 +1,77 @@
+name: Dependabot Auto-merge & Retention
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  schedule:
+    # Runs daily at 03:00 UTC to close stale Dependabot PRs older than 7 days
+    - cron: "0 3 * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  # ── Auto-merge patch updates ────────────────────────────────────────────────
+  auto-merge:
+    name: Auto-merge Dependabot patch PRs
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]' && github.event_name == 'pull_request'
+
+    steps:
+      - name: Fetch Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable auto-merge for patch updates
+        if: steps.meta.outputs.update-type == 'version-update:semver-patch'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ── Close stale Dependabot PRs (> 7 days old) ──────────────────────────────
+  close-stale:
+    name: Close stale Dependabot PRs
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+
+    steps:
+      - name: Close PRs older than 7 days
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { repo, owner } = context.repo;
+            const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+            const prs = await github.paginate(github.rest.pulls.list, {
+              owner,
+              repo,
+              state: "open",
+            });
+
+            for (const pr of prs) {
+              if (pr.user.login !== "dependabot[bot]") continue;
+
+              const age = new Date(pr.created_at);
+              if (age > cutoff) continue;
+
+              console.log(`Closing stale Dependabot PR #${pr.number}: ${pr.title}`);
+
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: pr.number,
+                body: "⏰ Closing this Dependabot PR after 7 days without merge. It will be re-opened on the next scheduled run if the update is still applicable.",
+              });
+
+              await github.rest.pulls.update({
+                owner,
+                repo,
+                pull_number: pr.number,
+                state: "closed",
+              });
+            }
