@@ -1,4 +1,4 @@
-FROM dhi.io/node:22.22-dev@sha256:4a3bde9f277769fc766383a68c576a13615de3e4d47555b474a198bb5436b664 AS builder
+FROM --platform=linux/arm64 dhi.io/node:22.22-dev@sha256:4a3bde9f277769fc766383a68c576a13615de3e4d47555b474a198bb5436b664 AS builder
 WORKDIR /app
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
@@ -16,7 +16,7 @@ ENV BETTER_AUTH_SECRET=placeholder
 
 RUN pnpm build
 
-FROM dhi.io/node:22.22@sha256:81b6e35245e1a25b434ac400b162e70e14065d6eb42427a5ff527ec5e48e6a21
+FROM --platform=linux/arm64 dhi.io/node:22.22@sha256:81b6e35245e1a25b434ac400b162e70e14065d6eb42427a5ff527ec5e48e6a21
 WORKDIR /app
 ENV NODE_ENV=production
 ENV HOSTNAME=0.0.0.0
