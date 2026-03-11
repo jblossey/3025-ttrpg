@@ -28,7 +28,6 @@ updates:
     # Keep the PR queue tidy
     labels:
       - "dependencies"
-    milestone: ~
     commit-message:
       prefix: "chore"
       prefix-development: "chore"
