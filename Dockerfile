@@ -7,6 +7,13 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
 COPY . .
+
+# Provide placeholder values so Next.js can compile routes that reference env vars at build time.
+# Real values are supplied at runtime.
+ENV BETTER_AUTH_URL=http://placeholder
+ENV DATABASE_URL=postgres://placeholder:placeholder@placeholder:5432/placeholder
+ENV BETTER_AUTH_SECRET=placeholder
+
 RUN pnpm build
 
 FROM dhi.io/node:22.22@sha256:81b6e35245e1a25b434ac400b162e70e14065d6eb42427a5ff527ec5e48e6a21

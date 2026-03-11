@@ -1,0 +1,17 @@
+node_modules
+.next
+.git
+.github
+.vscode
+.agents
+.env
+.env.*
+!.env.example
+Dockerfile
+docker-compose.yml
+k8s
+drizzle
+README.md
+LICENSE
+biome.json
+*.md
