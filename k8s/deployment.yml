@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 3025-ttrpg
+  namespace: 3025-ttrpg
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: 3025-ttrpg
+  template:
+    metadata:
+      labels:
+        app: 3025-ttrpg
+    spec:
+      containers:
+        - name: 3025-ttrpg
+          image: ghcr.io/jblossey/3025-ttrpg:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      imagePullSecrets:
+        - name: ghcr-secret

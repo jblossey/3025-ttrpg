@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: 3025-ttrpg
+  namespace: 3025-ttrpg
+spec:
+  selector:
+    app: 3025-ttrpg
+  ports:
+    - port: 80
+      targetPort: 3000
