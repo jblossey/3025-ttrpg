@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: 3025-ttrpg
+  name: ttrpg-3025
   namespace: 3025-ttrpg
 spec:
   selector:
