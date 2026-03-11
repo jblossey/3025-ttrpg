@@ -4,7 +4,7 @@ metadata:
   name: 3025-ttrpg
   namespace: 3025-ttrpg
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: 3025-ttrpg
@@ -16,6 +16,11 @@ spec:
       containers:
         - name: 3025-ttrpg
           image: ghcr.io/jblossey/3025-ttrpg:latest
+          envFrom:
+            - secretRef:
+                name: 3025-ttrpg-secret
+            - configMapRef:
+                name: 3025-ttrpg-config
           ports:
             - containerPort: 3000
           resources:
@@ -27,9 +32,24 @@ spec:
               cpu: "500m"
           readinessProbe:
             httpGet:
-              path: /
+              path: /api/health
               port: 3000
             initialDelaySeconds: 5
             periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+            failureThreshold: 3
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 10
       imagePullSecrets:
         - name: ghcr-secret
