@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { TextInput } from "@/components/ui/text-input";
 import { authClient } from "@/lib/auth-client";
+import { ROLES, type Role } from "@/lib/roles";
 import { UserSessions } from "./user-sessions";
 
 interface AdminActionsProps {
@@ -50,9 +51,7 @@ export function AdminActions({
   const [editEmail, setEditEmail] = useState(userEmail);
 
   // Role form state
-  const [selectedRole, setSelectedRole] = useState<"user" | "admin">(
-    role as "user" | "admin",
-  );
+  const [selectedRole, setSelectedRole] = useState<Role>(role as Role);
 
   function togglePanel(p: Panel) {
     setPanel((prev) => (prev === p ? null : p));
@@ -67,7 +66,7 @@ export function AdminActions({
     setNewPassword("");
     setEditName(userName);
     setEditEmail(userEmail);
-    setSelectedRole(role as "user" | "admin");
+    setSelectedRole(role as Role);
   }
 
   async function handleSetRole() {
@@ -273,13 +272,12 @@ export function AdminActions({
             Set Role
             <select
               value={selectedRole}
-              onChange={(e) =>
-                setSelectedRole(e.target.value as "user" | "admin")
-              }
+              onChange={(e) => setSelectedRole(e.target.value as Role)}
               className="mt-1 block rounded border border-primary/20 bg-card/60 px-2 py-1 font-mono text-[10px] text-foreground/80 outline-none backdrop-blur-sm focus:border-primary/40"
             >
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
+              <option value={ROLES.USER}>User</option>
+              <option value={ROLES.GAMEMASTER}>Gamemaster</option>
+              <option value={ROLES.ADMIN}>Admin</option>
             </select>
           </label>
           <div className="flex items-center gap-2">
