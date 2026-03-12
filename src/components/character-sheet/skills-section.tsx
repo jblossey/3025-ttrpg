@@ -85,7 +85,8 @@ function SkillNodeDisplay({
   const canAddMore = depth < MAX_DEPTH;
   const childCount = countNodes(node) - 1;
 
-  const indentStyleDesktop = depth > 0 ? depth * INDENT_SIZE_DESKTOP : 0;
+  const indentMobile = depth > 0 ? depth * INDENT_SIZE_MOBILE : 0;
+  const indentDesktop = depth > 0 ? depth * INDENT_SIZE_DESKTOP : 0;
 
   // Visual hierarchy through border thickness and opacity
   const borderOpacity = Math.max(0.3, 1 - depth * 0.15);
@@ -94,20 +95,14 @@ function SkillNodeDisplay({
     <div className="relative">
       {/* Node container with indentation */}
       <div
-        className="relative"
-        style={{
-          marginLeft: `${depth * INDENT_SIZE_MOBILE}px`,
-        }}
+        className="relative skill-node-indent"
+        style={
+          {
+            marginLeft: `${indentMobile}px`,
+            "--indent-desktop": `${indentDesktop}px`,
+          } as React.CSSProperties
+        }
       >
-        {/* Responsive indentation override for desktop */}
-        <style jsx>{`
-          @media (min-width: 768px) {
-            div[data-depth="${depth}"] {
-              margin-left: ${indentStyleDesktop}px !important;
-            }
-          }
-        `}</style>
-
         {/* Tree lines for non-root nodes */}
         {depth > 0 && (
           <div

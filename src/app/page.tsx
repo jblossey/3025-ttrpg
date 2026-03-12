@@ -1,12 +1,15 @@
 import { headers } from "next/headers";
-import { CharacterSheet } from "@/components/character-sheet/character-sheet";
+import { redirect } from "next/navigation";
+import { getOrCreateCharacter } from "@/app/actions/character-actions";
 import { auth } from "@/lib/auth";
 
 export default async function Home() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  const isAdmin = session?.user.role === "admin";
 
-  return <CharacterSheet isAdmin={isAdmin} />;
+  if (!session) redirect("/login");
+
+  const character = await getOrCreateCharacter();
+  redirect(`/character/${character.id}`);
 }

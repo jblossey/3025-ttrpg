@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Fira_Mono, Orbitron, Rajdhani } from "next/font/google";
 import { headers } from "next/headers";
+import { getAllCharacters } from "@/app/actions/character-actions";
+import { CharacterNav } from "@/components/character-nav";
 import { ImpersonationBanner } from "@/components/impersonation-banner";
 import { auth } from "@/lib/auth";
+import { isPrivilegedRole } from "@/lib/roles";
 import "./globals.css";
 
 const orbitron = Orbitron({
@@ -41,18 +44,40 @@ export default async function RootLayout({
     ? "impersonatedBy" in session.session && !!session.session.impersonatedBy
     : false;
 
+  const showCharacterNav = session && isPrivilegedRole(session.user.role);
+
+  let characters: { id: string; name: string; ownerName: string }[] = [];
+  if (showCharacterNav) {
+    try {
+      characters = await getAllCharacters();
+    } catch {
+      // User may not be authenticated on login page — silently ignore
+    }
+  }
+
+  const needsTopPadding = isImpersonating || showCharacterNav;
+
   return (
     <html
       lang="en"
       className={`${orbitron.variable} ${rajdhani.variable} ${firaMono.variable}`}
     >
       <body className="antialiased">
+        {showCharacterNav && <CharacterNav characters={characters} />}
         {isImpersonating && session && (
           <ImpersonationBanner
             impersonatingAs={session.user.name ?? session.user.email}
           />
         )}
-        {isImpersonating ? <div className="pt-10">{children}</div> : children}
+        {needsTopPadding ? (
+          <div
+            className={isImpersonating && showCharacterNav ? "pt-18" : "pt-10"}
+          >
+            {children}
+          </div>
+        ) : (
+          children
+        )}
       </body>
     </html>
   );
