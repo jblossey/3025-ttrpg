@@ -55,12 +55,12 @@ export default async function AdminPage({
   const total = result.total ?? users.length;
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="mx-auto max-w-5xl space-y-6">
+    <div className="min-h-screen p-3 md:p-6">
+      <div className="mx-auto max-w-5xl space-y-4 md:space-y-6">
         <HUDFrame label="Admin Console">
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h1 className="text-xl font-bold tracking-wider text-primary glow-text">
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+              <h1 className="text-lg md:text-xl font-bold tracking-wider text-primary glow-text">
                 User Management
               </h1>
               <p className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
@@ -69,13 +69,13 @@ export default async function AdminPage({
             </div>
 
             {/* Search & Create */}
-            <div className="flex flex-wrap items-end justify-between gap-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-4">
               <UserFilters />
               <CreateUserForm />
             </div>
 
-            {/* User table */}
-            <div className="overflow-x-auto">
+            {/* User table - desktop */}
+            <div className="hidden md:block overflow-x-auto">
               <table className="w-full font-mono text-xs">
                 <thead>
                   <tr className="border-b border-primary/20 text-left text-[9px] uppercase tracking-widest text-muted-foreground">
@@ -153,6 +153,65 @@ export default async function AdminPage({
                   )}
                 </tbody>
               </table>
+            </div>
+
+            {/* User cards - mobile */}
+            <div className="md:hidden space-y-3">
+              {users.map((user) => (
+                <div
+                  key={user.id}
+                  className="border border-primary/10 rounded-md p-3 space-y-2 font-mono text-xs"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="font-bold text-foreground/80 truncate">
+                        {user.name}
+                      </p>
+                      {user.username && (
+                        <p className="text-[10px] text-foreground/50 truncate">
+                          @{user.username}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span
+                        className={
+                          user.role === "admin"
+                            ? "text-primary text-[10px]"
+                            : "text-foreground/50 text-[10px]"
+                        }
+                      >
+                        {user.role ?? "user"}
+                      </span>
+                      {user.banned ? (
+                        <span className="text-destructive text-[10px]">
+                          Banned
+                        </span>
+                      ) : (
+                        <span className="text-green-500 text-[10px]">
+                          Active
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <p className="text-[10px] text-foreground/50 truncate">
+                    {user.email}
+                  </p>
+                  <AdminActions
+                    userId={user.id}
+                    userName={user.name}
+                    userEmail={user.email}
+                    isBanned={user.banned ?? false}
+                    role={user.role ?? "user"}
+                    isCurrentUser={user.id === session.user.id}
+                  />
+                </div>
+              ))}
+              {users.length === 0 && (
+                <p className="py-8 text-center font-mono text-xs text-foreground/40">
+                  No users found
+                </p>
+              )}
             </div>
 
             {/* Pagination */}

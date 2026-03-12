@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { index, jsonb, pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import {
+  index,
+  jsonb,
+  pgTable,
+  text,
+  timestamp,
+  uniqueIndex,
+} from "drizzle-orm/pg-core";
 import type { CharacterData } from "@/types/character";
 
 // Re-export everything from auth schema so drizzle-kit sees all tables

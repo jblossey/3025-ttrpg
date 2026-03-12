@@ -80,6 +80,9 @@ export function CharacterSheet({
                   <Link href="/admin">Admin Panel</Link>
                 </Button>
               )}
+              <Button asChild variant="outline" size="sm" className="no-print">
+                <Link href="/account">Settings</Link>
+              </Button>
               <Button
                 variant="outline"
                 size="sm"

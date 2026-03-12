@@ -63,7 +63,12 @@ export default async function RootLayout({
       className={`${orbitron.variable} ${rajdhani.variable} ${firaMono.variable}`}
     >
       <body className="antialiased">
-        {showCharacterNav && <CharacterNav characters={characters} />}
+        {showCharacterNav && (
+          <CharacterNav
+            characters={characters}
+            isImpersonating={isImpersonating}
+          />
+        )}
         {isImpersonating && session && (
           <ImpersonationBanner
             impersonatingAs={session.user.name ?? session.user.email}

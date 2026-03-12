@@ -36,7 +36,7 @@ export function UserFilters() {
   }
 
   return (
-    <div className="flex flex-wrap items-end gap-3">
+    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
       <div className="flex items-end gap-2">
         <TextInput
           label="Search"

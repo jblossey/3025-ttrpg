@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { TextInput } from "@/components/ui/text-input";
 import { authClient } from "@/lib/auth-client";
 import { ROLES, type Role } from "@/lib/roles";
+import { validatePassword } from "@/lib/validation";
 import { UserSessions } from "./user-sessions";
 
 interface AdminActionsProps {
@@ -72,9 +73,9 @@ export function AdminActions({
   async function handleSetRole() {
     setLoading(true);
     setError("");
-    const { error: err } = await authClient.admin.setRole({
+    const { error: err } = await authClient.admin.updateUser({
       userId,
-      role: selectedRole,
+      data: { role: selectedRole },
     });
     setLoading(false);
     if (err) {
@@ -115,8 +116,15 @@ export function AdminActions({
   }
 
   async function handleSetPassword() {
-    setLoading(true);
     setError("");
+
+    const passwordCheck = validatePassword(newPassword);
+    if (!passwordCheck.success) {
+      setError(passwordCheck.error);
+      return;
+    }
+
+    setLoading(true);
     const { error: err } = await authClient.admin.setUserPassword({
       userId,
       newPassword,
@@ -296,7 +304,7 @@ export function AdminActions({
           <span className="block font-mono text-[9px] uppercase tracking-widest text-foreground/40">
             Ban User
           </span>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <TextInput
               label="Reason"
               placeholder="Ban reason (optional)"
@@ -335,6 +343,7 @@ export function AdminActions({
             label="New Password"
             type="password"
             placeholder="Enter new password"
+            hint="Min 12 chars: upper, lower, number, special"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             size="sm"
@@ -356,7 +365,7 @@ export function AdminActions({
 
       {panel === "edit" && (
         <div className="space-y-2 border-t border-primary/10 pt-2">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <TextInput
               label="Name"
               value={editName}

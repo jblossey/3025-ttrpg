@@ -6,6 +6,7 @@ import { HUDFrame } from "@/components/thegridcn/hud-frame";
 import { Button } from "@/components/ui/button";
 import { TextInput } from "@/components/ui/text-input";
 import { authClient } from "@/lib/auth-client";
+import { validatePassword, validateUsername } from "@/lib/validation";
 
 export function CreateUserForm() {
   const router = useRouter();
@@ -34,6 +35,21 @@ export function CreateUserForm() {
     e.preventDefault();
     setError("");
     setSuccess("");
+
+    if (username) {
+      const usernameCheck = validateUsername(username);
+      if (!usernameCheck.success) {
+        setError(usernameCheck.error);
+        return;
+      }
+    }
+
+    const passwordCheck = validatePassword(password);
+    if (!passwordCheck.success) {
+      setError(passwordCheck.error);
+      return;
+    }
+
     setLoading(true);
 
     const { error: createError } = await authClient.admin.createUser({
@@ -67,7 +83,7 @@ export function CreateUserForm() {
   return (
     <HUDFrame label="Create User">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <TextInput
             label="Name"
             placeholder="Full name"
@@ -88,6 +104,7 @@ export function CreateUserForm() {
           <TextInput
             label="Username"
             placeholder="Callsign (optional)"
+            hint="lowercase_snake_case, 3-30 chars"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             size="sm"
@@ -96,6 +113,7 @@ export function CreateUserForm() {
             label="Password"
             type="password"
             placeholder="Secure passphrase"
+            hint="Min 12 chars: upper, lower, number, special"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required

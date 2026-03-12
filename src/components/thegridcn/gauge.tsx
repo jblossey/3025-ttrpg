@@ -3,6 +3,12 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
+/** CSS.escape polyfill — CSS.escape is unavailable during SSR. */
+function cssEscape(v: string): string {
+  if (typeof CSS !== "undefined" && CSS.escape) return CSS.escape(v);
+  return v.replace(/[^a-zA-Z0-9_-]/g, "\\$&");
+}
+
 interface GaugeProps extends React.HTMLAttributes<HTMLDivElement> {
   value: number;
   min?: number;
@@ -175,7 +181,7 @@ export function Gauge({
           strokeLinecap="round"
           strokeDasharray={`${filledLength} ${fullCirc - filledLength}`}
           transform={`rotate(${startAngleDeg} ${center} ${center})`}
-          filter={`url(#${CSS.escape(filterId)})`}
+          filter={`url(#${cssEscape(filterId)})`}
         />
 
         {/* Glow arc */}
@@ -216,7 +222,7 @@ export function Gauge({
           stroke={color}
           strokeWidth={2}
           strokeLinecap="round"
-          filter={`url(#${CSS.escape(filterId)})`}
+          filter={`url(#${cssEscape(filterId)})`}
         />
 
         {/* Center dot */}
