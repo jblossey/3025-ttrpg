@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useImmer } from "use-immer";
 import { Button } from "@/components/ui/button";
+import { type SaveStatus, useAutoSave } from "@/hooks/use-auto-save";
+import type { CharacterData } from "@/types/character";
+import { computeMaxHp, computeMaxStress } from "@/types/character";
 import { Gauge } from "../thegridcn/gauge";
 import { HUDFrame } from "../thegridcn/hud-frame";
 import { LocationDisplay } from "../thegridcn/location-display";
@@ -15,84 +18,36 @@ import { SkillsSection } from "./skills-section";
 import { StatsSection } from "./stats-section";
 import { VitalsSection } from "./vitals-section";
 
-interface CharacterData {
-  name: string;
-  stats: {
-    body: number;
-    intelligence: number;
-    charisma: number;
-  };
-  vitals: {
-    hp: { current: number; max: number };
-    stress: { current: number; max: number };
-  };
-  psychology: {
-    unbreakableConviction: string;
-    flexibleConviction: string;
-    fearDoubt: string;
-  };
-  history: {
-    profession: string;
-    professionDetails: string;
-    mannerisms: string;
-  };
-  connections: Array<{
-    id: string;
-    name: string;
-    description: string;
-    relationship: string;
-  }>;
-  items: Array<{
-    id: string;
-    name: string;
-    quantity: number;
-  }>;
-  skillTrees: Array<{
-    id: string;
-    rootSkill: SkillNodeData;
-  }>;
-}
+const SAVE_STATUS_LABELS: Record<SaveStatus, string> = {
+  idle: "",
+  saving: "SAVING...",
+  saved: "SAVED",
+  error: "SAVE ERROR",
+};
 
-interface SkillNodeData {
-  id: string;
-  name: string;
-  proficiency: number;
-  children: SkillNodeData[];
-}
-
-const initialCharacterData: CharacterData = {
-  name: "",
-  stats: {
-    body: 0,
-    intelligence: 0,
-    charisma: 0,
-  },
-  vitals: {
-    hp: { current: 12, max: 12 },
-    stress: { current: 0, max: 12 },
-  },
-  psychology: {
-    unbreakableConviction: "",
-    flexibleConviction: "",
-    fearDoubt: "",
-  },
-  history: {
-    profession: "",
-    professionDetails: "",
-    mannerisms: "",
-  },
-  connections: [],
-  items: [],
-  skillTrees: [],
+const SAVE_STATUS_COLORS: Record<SaveStatus, string> = {
+  idle: "text-muted-foreground",
+  saving: "text-yellow-400",
+  saved: "text-emerald-400",
+  error: "text-red-400",
 };
 
 interface CharacterSheetProps {
+  characterId: string;
+  initialData: CharacterData;
   isAdmin?: boolean;
 }
 
-export function CharacterSheet({ isAdmin }: CharacterSheetProps) {
-  const [character, updateCharacter] =
-    useImmer<CharacterData>(initialCharacterData);
+export function CharacterSheet({
+  characterId,
+  initialData,
+  isAdmin,
+}: CharacterSheetProps) {
+  const [character, updateCharacter] = useImmer<CharacterData>(initialData);
+  const saveStatus = useAutoSave(characterId, character);
+
+  const maxHp = computeMaxHp(character.stats.body);
+  const maxStress = computeMaxStress(character.stats.charisma);
 
   return (
     <div className="min-h-screen bg-background grid-lines">
@@ -106,8 +61,15 @@ export function CharacterSheet({ isAdmin }: CharacterSheetProps) {
             <div className="flex items-center gap-4">
               <span className="text-xs font-mono text-muted-foreground">
                 {character.name || "UNNAMED"} | HP:{" "}
-                {character.vitals.hp.current}/{character.vitals.hp.max}
+                {character.vitals.hp.current}/{maxHp}
               </span>
+              {SAVE_STATUS_LABELS[saveStatus] && (
+                <span
+                  className={`text-[10px] font-mono uppercase tracking-widest ${SAVE_STATUS_COLORS[saveStatus]}`}
+                >
+                  {SAVE_STATUS_LABELS[saveStatus]}
+                </span>
+              )}
               {isAdmin && (
                 <Button
                   asChild
@@ -143,14 +105,13 @@ export function CharacterSheet({ isAdmin }: CharacterSheetProps) {
             <div className="flex-shrink-0">
               <Gauge
                 value={character.vitals.hp.current}
-                max={character.vitals.hp.max}
+                max={maxHp}
                 label="HP"
                 size="md"
                 variant={
-                  character.vitals.hp.current / character.vitals.hp.max >= 0.66
+                  character.vitals.hp.current / maxHp >= 0.66
                     ? "success"
-                    : character.vitals.hp.current / character.vitals.hp.max <
-                        0.33
+                    : character.vitals.hp.current / maxHp < 0.33
                       ? "danger"
                       : "warning"
                 }
@@ -171,17 +132,13 @@ export function CharacterSheet({ isAdmin }: CharacterSheetProps) {
             <div className="flex-shrink-0">
               <Gauge
                 value={character.vitals.stress.current}
-                max={character.vitals.stress.max}
+                max={maxStress}
                 label="STR"
                 size="md"
                 variant={
-                  character.vitals.stress.current /
-                    character.vitals.stress.max >=
-                  0.66
+                  character.vitals.stress.current / maxStress >= 0.66
                     ? "danger"
-                    : character.vitals.stress.current /
-                          character.vitals.stress.max <
-                        0.33
+                    : character.vitals.stress.current / maxStress < 0.33
                       ? "success"
                       : "warning"
                 }
@@ -205,14 +162,14 @@ export function CharacterSheet({ isAdmin }: CharacterSheetProps) {
           onStatsChange={(stats) =>
             updateCharacter((draft) => {
               draft.stats = stats;
-              draft.vitals.hp.max = 12 + 3 * stats.body;
-              draft.vitals.stress.max = 12 + 3 * stats.charisma;
             })
           }
         />
 
         <VitalsSection
           vitals={character.vitals}
+          maxHp={maxHp}
+          maxStress={maxStress}
           onVitalsChange={(vitals) =>
             updateCharacter((draft) => {
               draft.vitals = vitals;

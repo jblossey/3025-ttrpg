@@ -6,12 +6,14 @@ import { cn } from "@/lib/utils";
 import { SectionWrapper } from "./section-wrapper";
 
 interface Vitals {
-  hp: { current: number; max: number };
-  stress: { current: number; max: number };
+  hp: { current: number };
+  stress: { current: number };
 }
 
 interface VitalsSectionProps {
   vitals: Vitals;
+  maxHp: number;
+  maxStress: number;
   onVitalsChange: (vitals: Vitals) => void;
 }
 
@@ -101,8 +103,13 @@ function VitalBar({
   );
 }
 
-export function VitalsSection({ vitals, onVitalsChange }: VitalsSectionProps) {
-  const summary = `HP: ${vitals.hp.current}/${vitals.hp.max} | STR: ${vitals.stress.current}/${vitals.stress.max}`;
+export function VitalsSection({
+  vitals,
+  maxHp,
+  maxStress,
+  onVitalsChange,
+}: VitalsSectionProps) {
+  const summary = `HP: ${vitals.hp.current}/${maxHp} | STR: ${vitals.stress.current}/${maxStress}`;
 
   return (
     <SectionWrapper
@@ -116,9 +123,9 @@ export function VitalsSection({ vitals, onVitalsChange }: VitalsSectionProps) {
           label="Health Points"
           code="HP"
           current={vitals.hp.current}
-          max={vitals.hp.max}
+          max={maxHp}
           onCurrentChange={(value) =>
-            onVitalsChange({ ...vitals, hp: { ...vitals.hp, current: value } })
+            onVitalsChange({ ...vitals, hp: { current: value } })
           }
           color="primary"
         />
@@ -126,11 +133,11 @@ export function VitalsSection({ vitals, onVitalsChange }: VitalsSectionProps) {
           label="Stress Level"
           code="STR"
           current={vitals.stress.current}
-          max={vitals.stress.max}
+          max={maxStress}
           onCurrentChange={(value) =>
             onVitalsChange({
               ...vitals,
-              stress: { ...vitals.stress, current: value },
+              stress: { current: value },
             })
           }
           color="destructive"

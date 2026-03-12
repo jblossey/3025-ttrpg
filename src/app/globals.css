@@ -109,3 +109,10 @@
     box-shadow: 0 0 20px color-mix(in oklch, var(--glow) 50%, transparent);
   }
 }
+
+/* Skill tree node indentation: mobile uses marginLeft inline, desktop overrides via CSS variable */
+@media (min-width: 768px) {
+  .skill-node-indent {
+    margin-left: var(--indent-desktop) !important;
+  }
+}

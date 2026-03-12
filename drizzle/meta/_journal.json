@@ -15,6 +15,20 @@
       "when": 1773240270045,
       "tag": "0001_deep_madame_web",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773279125379,
+      "tag": "0002_youthful_mac_gargan",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1773280367487,
+      "tag": "0003_right_rocket_raccoon",
+      "breakpoints": true
     }
   ]
 }
