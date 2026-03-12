@@ -48,7 +48,7 @@ function ConnectionCard({
         size="icon-sm"
         onClick={onRemove}
         className="absolute top-2 right-2 text-muted-foreground hover:text-destructive 
-                   opacity-0 group-hover:opacity-100 transition-opacity"
+                   md:opacity-0 md:group-hover:opacity-100 transition-opacity"
       >
         <XIcon size={16} />
       </Button>

@@ -53,16 +53,12 @@ export function CharacterSheet({
     <div className="min-h-screen bg-background grid-lines">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
-        <div className="max-w-5xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+        <div className="max-w-5xl mx-auto px-4 py-2 md:py-3">
+          <div className="flex items-center justify-between gap-2">
+            <div className="hidden md:flex items-center gap-3">
               <LocationDisplay sector="SOLARIS 7" status="HOSTILE" />
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-xs font-mono text-muted-foreground">
-                {character.name || "UNNAMED"} | HP:{" "}
-                {character.vitals.hp.current}/{maxHp}
-              </span>
+            <div className="flex items-center gap-2 md:gap-4 flex-wrap">
               {SAVE_STATUS_LABELS[saveStatus] && (
                 <span
                   className={`text-[10px] font-mono uppercase tracking-widest ${SAVE_STATUS_COLORS[saveStatus]}`}
@@ -70,6 +66,10 @@ export function CharacterSheet({
                   {SAVE_STATUS_LABELS[saveStatus]}
                 </span>
               )}
+              <span className="hidden md:inline text-xs font-mono text-muted-foreground">
+                {character.name || "UNNAMED"} | HP:{" "}
+                {character.vitals.hp.current}/{maxHp}
+              </span>
               {isAdmin && (
                 <Button
                   asChild
@@ -100,27 +100,9 @@ export function CharacterSheet({
       >
         {/* Title Banner */}
         <HUDFrame>
-          <div className="flex items-center justify-between px-4 py-4 md:px-8 md:py-6">
-            {/* HP Gauge */}
-            <div className="flex-shrink-0">
-              <Gauge
-                value={character.vitals.hp.current}
-                max={maxHp}
-                label="HP"
-                size="md"
-                variant={
-                  character.vitals.hp.current / maxHp >= 0.66
-                    ? "success"
-                    : character.vitals.hp.current / maxHp < 0.33
-                      ? "danger"
-                      : "warning"
-                }
-              />
-            </div>
-
-            {/* Character Info */}
-            <div className="flex-1 text-center px-4">
-              <h1 className="text-xl md:text-2xl lg:text-3xl font-bold uppercase tracking-[0.2em] md:tracking-[0.3em] text-primary glow-text truncate">
+          <div className="flex flex-col items-center gap-2 px-4 py-4 md:flex-row md:justify-between md:px-8 md:py-6">
+            <div className="order-first md:order-2 md:flex-1 text-center px-4">
+              <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] text-primary glow-text truncate">
                 {character.name || "Unnamed Character"}
               </h1>
               <p className="text-xs font-mono text-muted-foreground mt-1 tracking-wider truncate">
@@ -128,21 +110,41 @@ export function CharacterSheet({
               </p>
             </div>
 
-            {/* Stress Gauge */}
-            <div className="flex-shrink-0">
-              <Gauge
-                value={character.vitals.stress.current}
-                max={maxStress}
-                label="STR"
-                size="md"
-                variant={
-                  character.vitals.stress.current / maxStress >= 0.66
-                    ? "danger"
-                    : character.vitals.stress.current / maxStress < 0.33
+            {/* Gauges row - side by side on mobile, flanking name on desktop */}
+            <div className="flex items-center justify-center gap-6 md:contents">
+              {/* HP Gauge */}
+              <div className="shrink-0 md:order-1 scale-100 md:scale-125 origin-center">
+                <Gauge
+                  value={character.vitals.hp.current}
+                  max={maxHp}
+                  label="HP"
+                  size="sm"
+                  variant={
+                    character.vitals.hp.current / maxHp >= 0.66
                       ? "success"
-                      : "warning"
-                }
-              />
+                      : character.vitals.hp.current / maxHp < 0.33
+                        ? "danger"
+                        : "warning"
+                  }
+                />
+              </div>
+
+              {/* Stress Gauge */}
+              <div className="shrink-0 md:order-3 scale-100 md:scale-125 origin-center">
+                <Gauge
+                  value={character.vitals.stress.current}
+                  max={maxStress}
+                  label="STR"
+                  size="sm"
+                  variant={
+                    character.vitals.stress.current / maxStress >= 0.66
+                      ? "danger"
+                      : character.vitals.stress.current / maxStress < 0.33
+                        ? "success"
+                        : "warning"
+                  }
+                />
+              </div>
             </div>
           </div>
         </HUDFrame>

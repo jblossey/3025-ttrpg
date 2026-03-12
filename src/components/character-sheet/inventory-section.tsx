@@ -54,7 +54,7 @@ export function InventorySection({
     >
       <div className="space-y-2">
         {/* Header */}
-        <div className="flex items-center gap-2 px-2 py-1 text-xs font-mono text-muted-foreground uppercase">
+        <div className="hidden sm:flex items-center gap-2 px-2 py-1 text-xs font-mono text-muted-foreground uppercase">
           <div className="w-6" />
           <div className="flex-1">Item Designation</div>
           <div className="w-16 text-center">QTY</div>
@@ -106,7 +106,7 @@ export function InventorySection({
                   variant="ghost"
                   size="icon-sm"
                   onClick={() => removeItem(index)}
-                  className="text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="text-muted-foreground hover:text-destructive md:opacity-0 md:group-hover:opacity-100 transition-opacity"
                 >
                   <XIcon size={16} />
                 </Button>

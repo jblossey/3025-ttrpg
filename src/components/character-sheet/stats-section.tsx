@@ -96,11 +96,13 @@ export function StatsSection({ stats, onStatsChange }: StatsSectionProps) {
         />
       </div>
       <Divider variant="dashed" className="my-4" />
-      <div className="flex justify-center gap-4">
+      <div className="flex flex-wrap justify-center gap-x-4 gap-y-1">
         <span className="text-xs font-mono text-muted-foreground">
           STAT RANGE: -1 TO +2
         </span>
-        <span className="text-xs font-mono text-primary">|</span>
+        <span className="hidden sm:inline text-xs font-mono text-primary">
+          |
+        </span>
         <span className="text-xs font-mono text-muted-foreground">
           TOTAL: {stats.body + stats.intelligence + stats.charisma}
         </span>
