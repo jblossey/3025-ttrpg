@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
-import { HUDFrame } from "@/components/ui/hud-frame";
-import { TextInput } from "@/components/ui/text-input";
-import { GlowContainer } from "@/components/ui/glow-container";
+import { useState } from "react";
+import { GlowContainer } from "@/components/thegridcn/glow-container";
+import { HUDFrame } from "@/components/thegridcn/hud-frame";
 import { Button } from "@/components/ui/button";
+import { TextInput } from "@/components/ui/text-input";
+import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
   const router = useRouter();
