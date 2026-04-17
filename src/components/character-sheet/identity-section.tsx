@@ -1,6 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+
 import { SectionWrapper } from "./section-wrapper";
 
 interface IdentitySectionProps {
@@ -23,9 +24,7 @@ export function IdentitySection({ name, onNameChange }: IdentitySectionProps) {
           value={name}
           onChange={(e) => onNameChange(e.target.value)}
           placeholder="ENTER CHARACTER NAME"
-          className="text-2xl font-bold tracking-wider h-14 bg-secondary/30 border-primary/30 
-                     focus:border-primary focus:glow text-primary placeholder:text-muted-foreground/50
-                     font-mono uppercase"
+          className="bg-secondary/30 border-primary/30 focus:border-primary focus:glow text-primary placeholder:text-muted-foreground/50 h-14 font-mono text-2xl font-bold tracking-wider uppercase"
         />
       </div>
     </SectionWrapper>

@@ -7,6 +7,7 @@ import {
   timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
+
 import type { CharacterData } from "@/types/character";
 
 // Re-export everything from auth schema so drizzle-kit sees all tables

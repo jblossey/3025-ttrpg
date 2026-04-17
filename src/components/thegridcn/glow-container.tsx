@@ -1,6 +1,7 @@
 "use client";
 
 import type * as React from "react";
+
 import { cn } from "@/lib/utils";
 
 interface GlowContainerProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -26,7 +27,7 @@ export function GlowContainer({
   return (
     <div
       className={cn(
-        "rounded-lg border border-border bg-card p-4 transition-all duration-300",
+        "border-border bg-card rounded-lg border p-4 transition-all duration-300",
         hover && "hover:glow-border",
         pulse && "glow-pulse",
         !hover && !pulse && glowClass,

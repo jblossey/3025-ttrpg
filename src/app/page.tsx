@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+
 import { getOrCreateCharacter } from "@/app/actions/character-actions";
 import { auth } from "@/lib/auth";
 

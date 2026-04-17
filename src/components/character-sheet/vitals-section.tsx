@@ -1,8 +1,10 @@
 "use client";
 
 import { Minus, PlusIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+
 import { SectionWrapper } from "./section-wrapper";
 
 interface Vitals {
@@ -40,17 +42,17 @@ function VitalBar({
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono text-muted-foreground">
+          <span className="text-muted-foreground font-mono text-xs">
             [{code}]
           </span>
-          <span className="text-sm font-bold uppercase tracking-wider">
+          <span className="text-sm font-bold tracking-wider uppercase">
             {label}
           </span>
         </div>
       </div>
 
       {/* Visual bar */}
-      <div className="relative h-6 bg-secondary border border-border rounded overflow-hidden">
+      <div className="bg-secondary border-border relative h-6 overflow-hidden rounded border">
         <div
           className={cn(
             "absolute inset-y-0 left-0 transition-all duration-300",
@@ -59,7 +61,7 @@ function VitalBar({
           style={{ width: `${percentage}%` }}
         />
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-xs font-mono font-bold text-foreground drop-shadow-lg">
+          <span className="text-foreground font-mono text-xs font-bold drop-shadow-lg">
             {current} / {max}
           </span>
         </div>
@@ -68,7 +70,7 @@ function VitalBar({
       {/* Controls */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-mono text-muted-foreground">
+          <span className="text-muted-foreground font-mono text-xs">
             CURRENT:
           </span>
           <div className="flex items-center gap-1">
@@ -77,7 +79,7 @@ function VitalBar({
               size="icon-sm"
               onClick={() => onCurrentChange(Math.max(0, current - 1))}
             >
-              <Minus className="w-3 h-3" />
+              <Minus className="h-3 w-3" />
             </Button>
             <input
               type="number"
@@ -87,7 +89,7 @@ function VitalBar({
                   Math.max(0, Math.min(max, parseInt(e.target.value, 10) || 0)),
                 )
               }
-              className="w-12 h-7 text-center font-mono text-sm bg-secondary border border-border rounded"
+              className="bg-secondary border-border h-7 w-12 rounded border text-center font-mono text-sm"
             />
             <Button
               variant="outline"
@@ -118,7 +120,7 @@ export function VitalsSection({
       defaultOpen={true}
       collapsedSummary={summary}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <VitalBar
           label="Health Points"
           code="HP"

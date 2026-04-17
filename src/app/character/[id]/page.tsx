@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
+
 import { getCharacter } from "@/app/actions/character-actions";
 import { CharacterSheet } from "@/components/character-sheet/character-sheet";
 import { auth } from "@/lib/auth";

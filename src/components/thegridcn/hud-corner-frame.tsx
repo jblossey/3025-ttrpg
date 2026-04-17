@@ -1,10 +1,10 @@
 "use client";
 
 import type * as React from "react";
+
 import { cn } from "@/lib/utils";
 
-export interface HUDCornerFrameProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface HUDCornerFrameProps extends React.HTMLAttributes<HTMLDivElement> {
   position: "top-left" | "top-right" | "bottom-left" | "bottom-right";
   size?: number;
 }
@@ -32,7 +32,7 @@ export function HUDCornerFrame({
   return (
     <div
       className={cn(
-        "pointer-events-none absolute border-primary/60",
+        "border-primary/60 pointer-events-none absolute",
         positionClasses[position],
         borderClasses[position],
         className,

@@ -2,11 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { TextInput } from "@/components/ui/text-input";
 import { authClient } from "@/lib/auth-client";
 import { ROLES, type Role } from "@/lib/roles";
 import { validatePassword } from "@/lib/validation";
+
 import { UserSessions } from "./user-sessions";
 
 interface AdminActionsProps {
@@ -191,7 +193,7 @@ export function AdminActions({
   }
 
   if (isCurrentUser) {
-    return <span className="text-[9px] text-muted-foreground">You</span>;
+    return <span className="text-muted-foreground text-[9px]">You</span>;
   }
 
   return (
@@ -263,7 +265,7 @@ export function AdminActions({
           variant="ghost"
           size="sm"
           onClick={() => togglePanel("delete")}
-          className="text-[10px] text-destructive"
+          className="text-destructive text-[10px]"
         >
           Delete
         </Button>
@@ -271,17 +273,17 @@ export function AdminActions({
 
       {/* Expandable panels */}
       {error && (
-        <p className="font-mono text-[10px] text-destructive">{error}</p>
+        <p className="text-destructive font-mono text-[10px]">{error}</p>
       )}
 
       {panel === "role" && (
-        <div className="space-y-2 border-t border-primary/10 pt-2">
-          <label className="block font-mono text-[9px] uppercase tracking-widest text-foreground/40">
+        <div className="border-primary/10 space-y-2 border-t pt-2">
+          <label className="text-foreground/40 block font-mono text-[9px] tracking-widest uppercase">
             Set Role
             <select
               value={selectedRole}
               onChange={(e) => setSelectedRole(e.target.value as Role)}
-              className="mt-1 block rounded border border-primary/20 bg-card/60 px-2 py-1 font-mono text-[10px] text-foreground/80 outline-none backdrop-blur-sm focus:border-primary/40"
+              className="border-primary/20 bg-card/60 text-foreground/80 focus:border-primary/40 mt-1 block rounded border px-2 py-1 font-mono text-[10px] backdrop-blur-sm outline-none"
             >
               <option value={ROLES.USER}>User</option>
               <option value={ROLES.GAMEMASTER}>Gamemaster</option>
@@ -300,11 +302,11 @@ export function AdminActions({
       )}
 
       {panel === "ban" && (
-        <div className="space-y-2 border-t border-primary/10 pt-2">
-          <span className="block font-mono text-[9px] uppercase tracking-widest text-foreground/40">
+        <div className="border-primary/10 space-y-2 border-t pt-2">
+          <span className="text-foreground/40 block font-mono text-[9px] tracking-widest uppercase">
             Ban User
           </span>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <TextInput
               label="Reason"
               placeholder="Ban reason (optional)"
@@ -338,7 +340,7 @@ export function AdminActions({
       )}
 
       {panel === "password" && (
-        <div className="space-y-2 border-t border-primary/10 pt-2">
+        <div className="border-primary/10 space-y-2 border-t pt-2">
           <TextInput
             label="New Password"
             type="password"
@@ -364,8 +366,8 @@ export function AdminActions({
       )}
 
       {panel === "edit" && (
-        <div className="space-y-2 border-t border-primary/10 pt-2">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div className="border-primary/10 space-y-2 border-t pt-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             <TextInput
               label="Name"
               value={editName}
@@ -392,14 +394,14 @@ export function AdminActions({
       )}
 
       {panel === "sessions" && (
-        <div className="border-t border-primary/10 pt-2">
+        <div className="border-primary/10 border-t pt-2">
           <UserSessions userId={userId} />
         </div>
       )}
 
       {panel === "delete" && (
-        <div className="space-y-2 border-t border-primary/10 pt-2">
-          <p className="font-mono text-[10px] text-destructive">
+        <div className="border-primary/10 space-y-2 border-t pt-2">
+          <p className="text-destructive font-mono text-[10px]">
             Permanently delete this user? This cannot be undone.
           </p>
           <div className="flex gap-2">

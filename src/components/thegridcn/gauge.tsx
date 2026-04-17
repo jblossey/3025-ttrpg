@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+
 import { cn } from "@/lib/utils";
 
 /** CSS.escape polyfill — CSS.escape is unavailable during SSR. */
@@ -251,7 +252,7 @@ export function Gauge({
       {label && (
         <span
           className={cn(
-            "uppercase tracking-widest text-foreground/80",
+            "text-foreground/80 tracking-widest uppercase",
             config.labelSize,
           )}
         >

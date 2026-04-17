@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 
@@ -69,19 +70,19 @@ export function UserSessions({ userId }: { userId: string }) {
 
   if (loading) {
     return (
-      <p className="font-mono text-[10px] text-muted-foreground">
+      <p className="text-muted-foreground font-mono text-[10px]">
         Loading sessions...
       </p>
     );
   }
 
   if (error) {
-    return <p className="font-mono text-[10px] text-destructive">{error}</p>;
+    return <p className="text-destructive font-mono text-[10px]">{error}</p>;
   }
 
   if (sessions.length === 0) {
     return (
-      <p className="font-mono text-[10px] text-muted-foreground">
+      <p className="text-muted-foreground font-mono text-[10px]">
         No active sessions
       </p>
     );
@@ -90,7 +91,7 @@ export function UserSessions({ userId }: { userId: string }) {
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <span className="font-mono text-[9px] uppercase tracking-widest text-foreground/40">
+        <span className="text-foreground/40 font-mono text-[9px] tracking-widest uppercase">
           Active Sessions ({sessions.length})
         </span>
         <Button
@@ -108,16 +109,16 @@ export function UserSessions({ userId }: { userId: string }) {
         {sessions.map((session) => (
           <div
             key={session.id}
-            className="flex items-center justify-between rounded border border-primary/10 px-2 py-1"
+            className="border-primary/10 flex items-center justify-between rounded border px-2 py-1"
           >
             <div className="space-y-0.5">
-              <div className="flex items-center gap-2 font-mono text-[10px] text-foreground/60">
+              <div className="text-foreground/60 flex items-center gap-2 font-mono text-[10px]">
                 <span>{session.ipAddress ?? "Unknown IP"}</span>
                 {session.impersonatedBy && (
                   <span className="text-yellow-500">[Impersonated]</span>
                 )}
               </div>
-              <div className="font-mono text-[9px] text-foreground/30">
+              <div className="text-foreground/30 font-mono text-[9px]">
                 {session.userAgent
                   ? session.userAgent.length > 60
                     ? `${session.userAgent.slice(0, 60)}...`
@@ -131,7 +132,7 @@ export function UserSessions({ userId }: { userId: string }) {
               size="sm"
               onClick={() => handleRevoke(session.token)}
               disabled={actionLoading === session.token}
-              className="text-[10px] text-destructive"
+              className="text-destructive text-[10px]"
             >
               {actionLoading === session.token ? "..." : "Revoke"}
             </Button>

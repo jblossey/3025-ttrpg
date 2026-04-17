@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useImmer } from "use-immer";
+
 import { Button } from "@/components/ui/button";
 import { type SaveStatus, useAutoSave } from "@/hooks/use-auto-save";
 import type { CharacterData } from "@/types/character";
 import { computeMaxHp, computeMaxStress } from "@/types/character";
+
 import { Gauge } from "../thegridcn/gauge";
 import { HUDFrame } from "../thegridcn/hud-frame";
 import { LocationDisplay } from "../thegridcn/location-display";
@@ -50,23 +52,23 @@ export function CharacterSheet({
   const maxStress = computeMaxStress(character.stats.charisma);
 
   return (
-    <div className="min-h-screen bg-background grid-lines">
+    <div className="bg-background grid-lines min-h-screen">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur border-b border-border">
-        <div className="max-w-5xl mx-auto px-4 py-2 md:py-3">
+      <header className="bg-background/95 border-border sticky top-0 z-50 border-b backdrop-blur">
+        <div className="mx-auto max-w-5xl px-4 py-2 md:py-3">
           <div className="flex items-center justify-between gap-2">
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden items-center gap-3 md:flex">
               <LocationDisplay sector="SOLARIS 7" status="HOSTILE" />
             </div>
-            <div className="flex items-center gap-2 md:gap-4 flex-wrap">
+            <div className="flex flex-wrap items-center gap-2 md:gap-4">
               {SAVE_STATUS_LABELS[saveStatus] && (
                 <span
-                  className={`text-[10px] font-mono uppercase tracking-widest ${SAVE_STATUS_COLORS[saveStatus]}`}
+                  className={`font-mono text-[10px] tracking-widest uppercase ${SAVE_STATUS_COLORS[saveStatus]}`}
                 >
                   {SAVE_STATUS_LABELS[saveStatus]}
                 </span>
               )}
-              <span className="hidden md:inline text-xs font-mono text-muted-foreground">
+              <span className="text-muted-foreground hidden font-mono text-xs md:inline">
                 {character.name || "UNNAMED"} | HP:{" "}
                 {character.vitals.hp.current}/{maxHp}
               </span>
@@ -87,7 +89,7 @@ export function CharacterSheet({
                 variant="outline"
                 size="sm"
                 onClick={() => window.print()}
-                className="font-mono uppercase tracking-wider no-print"
+                className="no-print font-mono tracking-wider uppercase"
               >
                 Print Sheet
               </Button>
@@ -98,17 +100,17 @@ export function CharacterSheet({
 
       {/* Main content */}
       <main
-        className="max-w-5xl mx-auto px-4 py-6 space-y-4"
+        className="mx-auto max-w-5xl space-y-4 px-4 py-6"
         suppressHydrationWarning
       >
         {/* Title Banner */}
         <HUDFrame>
           <div className="flex flex-col items-center gap-2 px-4 py-4 md:flex-row md:justify-between md:px-8 md:py-6">
-            <div className="order-first md:order-2 md:flex-1 text-center px-4">
-              <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] text-primary glow-text truncate">
+            <div className="order-first px-4 text-center md:order-2 md:flex-1">
+              <h1 className="text-primary glow-text truncate text-lg font-bold tracking-[0.15em] uppercase sm:text-xl sm:tracking-[0.2em] md:text-2xl md:tracking-[0.3em] lg:text-3xl">
                 {character.name || "Unnamed Character"}
               </h1>
-              <p className="text-xs font-mono text-muted-foreground mt-1 tracking-wider truncate">
+              <p className="text-muted-foreground mt-1 truncate font-mono text-xs tracking-wider">
                 {character.history.profession || "No Profession"}
               </p>
             </div>
@@ -116,7 +118,7 @@ export function CharacterSheet({
             {/* Gauges row - side by side on mobile, flanking name on desktop */}
             <div className="flex items-center justify-center gap-6 md:contents">
               {/* HP Gauge */}
-              <div className="shrink-0 md:order-1 scale-100 md:scale-125 origin-center">
+              <div className="shrink-0 origin-center scale-100 md:order-1 md:scale-125">
                 <Gauge
                   value={character.vitals.hp.current}
                   max={maxHp}
@@ -133,7 +135,7 @@ export function CharacterSheet({
               </div>
 
               {/* Stress Gauge */}
-              <div className="shrink-0 md:order-3 scale-100 md:scale-125 origin-center">
+              <div className="shrink-0 origin-center scale-100 md:order-3 md:scale-125">
                 <Gauge
                   value={character.vitals.stress.current}
                   max={maxStress}

@@ -7,9 +7,11 @@ import {
   UsersIcon,
   XIcon,
 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+
 import { SectionWrapper } from "./section-wrapper";
 
 interface Connection {
@@ -42,33 +44,32 @@ function ConnectionCard({
   const relId = `connection-rel-${connection.id}`;
 
   return (
-    <div className="bg-secondary/30 border border-border rounded p-4 relative group">
+    <div className="bg-secondary/30 border-border group relative rounded border p-4">
       <Button
         variant="ghost"
         size="icon-sm"
         onClick={onRemove}
-        className="absolute top-2 right-2 text-muted-foreground hover:text-destructive 
-                   md:opacity-0 md:group-hover:opacity-100 transition-opacity"
+        className="text-muted-foreground hover:text-destructive absolute top-2 right-2 transition-opacity md:opacity-0 md:group-hover:opacity-100"
       >
         <XIcon size={16} />
       </Button>
 
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/50">
-          <span className="text-xs font-mono font-bold text-primary">
+      <div className="mb-4 flex items-center gap-2">
+        <div className="bg-primary/20 border-primary/50 flex h-8 w-8 items-center justify-center rounded-full border">
+          <span className="text-primary font-mono text-xs font-bold">
             {String(index + 1).padStart(2, "0")}
           </span>
         </div>
-        <span className="text-xs font-mono text-muted-foreground">
+        <span className="text-muted-foreground font-mono text-xs">
           [CON-{String(index + 1).padStart(2, "0")}]
         </span>
       </div>
 
       <div className="space-y-3">
         <div>
-          <label htmlFor={nameId} className="flex items-center gap-2 mb-1">
+          <label htmlFor={nameId} className="mb-1 flex items-center gap-2">
             <UsersIcon size={12} className="text-primary" />
-            <span className="text-xs font-mono text-muted-foreground uppercase">
+            <span className="text-muted-foreground font-mono text-xs uppercase">
               Name
             </span>
           </label>
@@ -77,14 +78,14 @@ function ConnectionCard({
             value={connection.name}
             onChange={(e) => onChange({ ...connection, name: e.target.value })}
             placeholder="Connection's name..."
-            className="h-8 bg-background/50 border-border/50 text-sm font-mono"
+            className="bg-background/50 border-border/50 h-8 font-mono text-sm"
           />
         </div>
 
         <div>
-          <label htmlFor={descId} className="flex items-center gap-2 mb-1">
+          <label htmlFor={descId} className="mb-1 flex items-center gap-2">
             <MessageSquareIcon size={12} className="text-primary" />
-            <span className="text-xs font-mono text-muted-foreground uppercase">
+            <span className="text-muted-foreground font-mono text-xs uppercase">
               Description
             </span>
           </label>
@@ -95,14 +96,14 @@ function ConnectionCard({
               onChange({ ...connection, description: e.target.value })
             }
             placeholder="Who are they?"
-            className="min-h-15 bg-background/50 border-border/50 resize-none text-sm font-mono"
+            className="bg-background/50 border-border/50 min-h-15 resize-none font-mono text-sm"
           />
         </div>
 
         <div>
-          <label htmlFor={relId} className="flex items-center gap-2 mb-1">
+          <label htmlFor={relId} className="mb-1 flex items-center gap-2">
             <LinkIcon size={12} className="text-primary" />
-            <span className="text-xs font-mono text-muted-foreground uppercase">
+            <span className="text-muted-foreground font-mono text-xs uppercase">
               Connection
             </span>
           </label>
@@ -113,7 +114,7 @@ function ConnectionCard({
               onChange({ ...connection, relationship: e.target.value })
             }
             placeholder="How do they connect to you?"
-            className="min-h-15 bg-background/50 border-border/50 resize-none text-sm font-mono"
+            className="bg-background/50 border-border/50 min-h-15 resize-none font-mono text-sm"
           />
         </div>
       </div>
@@ -166,17 +167,17 @@ export function ConnectionsSection({
     >
       <div className="space-y-4">
         {connections.length === 0 ? (
-          <div className="flex flex-col items-center justify-center text-center py-8 border border-dashed border-border rounded">
+          <div className="border-border flex flex-col items-center justify-center rounded border border-dashed py-8 text-center">
             <UsersIcon size={32} className="text-muted-foreground mb-2" />
-            <p className="text-sm font-mono text-muted-foreground">
+            <p className="text-muted-foreground font-mono text-sm">
               NO CONNECTIONS REGISTERED
             </p>
-            <p className="text-xs font-mono text-muted-foreground/70 mt-1">
+            <p className="text-muted-foreground/70 mt-1 font-mono text-xs">
               Add interpersonal connections below
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {connections.map((connection, index) => (
               <ConnectionCard
                 key={connection.id}
@@ -192,7 +193,7 @@ export function ConnectionsSection({
         <Button
           onClick={addConnection}
           variant="outline"
-          className="w-full border-dashed border-primary/50 text-primary hover:bg-primary/10 hover:border-primary"
+          className="border-primary/50 text-primary hover:bg-primary/10 hover:border-primary w-full border-dashed"
         >
           <PlusIcon size={16} className="mr-2" />
           <span className="font-mono text-sm">ADD CONNECTION</span>

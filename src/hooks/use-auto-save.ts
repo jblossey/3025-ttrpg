@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+
 import { updateCharacter } from "@/app/actions/character-actions";
 import type { CharacterData } from "@/types/character";
 

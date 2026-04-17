@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+
 import { cn } from "@/lib/utils";
 
 interface RatingProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -105,7 +106,7 @@ export function Rating({
       {label && (
         <span
           className={cn(
-            "font-mono uppercase tracking-widest text-foreground/40",
+            "text-foreground/40 font-mono tracking-widest uppercase",
             config.text,
           )}
         >
@@ -134,7 +135,7 @@ export function Rating({
       {showValue && (
         <span
           className={cn(
-            "font-mono tabular-nums text-foreground/50",
+            "text-foreground/50 font-mono tabular-nums",
             config.text,
           )}
         >

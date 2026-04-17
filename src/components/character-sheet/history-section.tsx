@@ -1,8 +1,10 @@
 "use client";
 
 import { Briefcase, FileTextIcon, Theater } from "lucide-react";
+
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+
 import { SectionWrapper } from "./section-wrapper";
 
 interface History {
@@ -33,13 +35,13 @@ export function HistorySection({
     >
       <div className="space-y-4">
         {/* Profession/Talent */}
-        <div className="bg-secondary/30 border border-border rounded p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Briefcase className="w-4 h-4 text-primary" />
-            <span className="text-xs font-mono text-muted-foreground">
+        <div className="bg-secondary/30 border-border rounded border p-4">
+          <div className="mb-3 flex items-center gap-2">
+            <Briefcase className="text-primary h-4 w-4" />
+            <span className="text-muted-foreground font-mono text-xs">
               [PRO]
             </span>
-            <span className="text-sm font-bold uppercase tracking-wider">
+            <span className="text-sm font-bold tracking-wider uppercase">
               Profession / Talent
             </span>
           </div>
@@ -54,13 +56,13 @@ export function HistorySection({
         </div>
 
         {/* Profession Details */}
-        <div className="bg-secondary/30 border border-border rounded p-4">
-          <div className="flex items-center gap-2 mb-3">
+        <div className="bg-secondary/30 border-border rounded border p-4">
+          <div className="mb-3 flex items-center gap-2">
             <FileTextIcon size={16} className="text-primary" />
-            <span className="text-xs font-mono text-muted-foreground">
+            <span className="text-muted-foreground font-mono text-xs">
               [DTL]
             </span>
-            <span className="text-sm font-bold uppercase tracking-wider">
+            <span className="text-sm font-bold tracking-wider uppercase">
               Profession Details
             </span>
           </div>
@@ -70,18 +72,18 @@ export function HistorySection({
               onHistoryChange({ ...history, professionDetails: e.target.value })
             }
             placeholder="Describe your expertise, training, notable achievements..."
-            className="min-h-25 bg-background/50 border-border/50 resize-none font-mono text-sm"
+            className="bg-background/50 border-border/50 min-h-25 resize-none font-mono text-sm"
           />
         </div>
 
         {/* Mannerisms */}
-        <div className="bg-secondary/30 border border-border rounded p-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Theater className="w-4 h-4 text-primary" />
-            <span className="text-xs font-mono text-muted-foreground">
+        <div className="bg-secondary/30 border-border rounded border p-4">
+          <div className="mb-3 flex items-center gap-2">
+            <Theater className="text-primary h-4 w-4" />
+            <span className="text-muted-foreground font-mono text-xs">
               [MAN]
             </span>
-            <span className="text-sm font-bold uppercase tracking-wider">
+            <span className="text-sm font-bold tracking-wider uppercase">
               Mannerisms
             </span>
           </div>
@@ -91,7 +93,7 @@ export function HistorySection({
               onHistoryChange({ ...history, mannerisms: e.target.value })
             }
             placeholder="Habits, quirks, speech patterns, physical tells..."
-            className="min-h-20 bg-background/50 border-border/50 resize-none font-mono text-sm"
+            className="bg-background/50 border-border/50 min-h-20 resize-none font-mono text-sm"
           />
         </div>
       </div>
