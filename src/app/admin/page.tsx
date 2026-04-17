@@ -1,7 +1,9 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+
 import { HUDFrame } from "@/components/thegridcn/hud-frame";
 import { auth } from "@/lib/auth";
+
 import { AdminActions } from "./admin-actions";
 import { CreateUserForm } from "./create-user-form";
 import { UserFilters, UserPagination } from "./user-filters";
@@ -60,10 +62,10 @@ export default async function AdminPage({
         <HUDFrame label="Admin Console">
           <div className="space-y-4">
             <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-              <h1 className="text-lg md:text-xl font-bold tracking-wider text-primary glow-text">
+              <h1 className="text-primary glow-text text-lg font-bold tracking-wider md:text-xl">
                 User Management
               </h1>
-              <p className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+              <p className="text-muted-foreground font-mono text-[9px] tracking-widest uppercase">
                 Signed in as {session.user.name}
               </p>
             </div>
@@ -75,16 +77,16 @@ export default async function AdminPage({
             </div>
 
             {/* User table - desktop */}
-            <div className="hidden md:block overflow-x-auto">
+            <div className="hidden overflow-x-auto md:block">
               <table className="w-full font-mono text-xs">
                 <thead>
-                  <tr className="border-b border-primary/20 text-left text-[9px] uppercase tracking-widest text-muted-foreground">
-                    <th className="pb-2 pr-4">Name</th>
-                    <th className="pb-2 pr-4">Username</th>
-                    <th className="pb-2 pr-4">Email</th>
-                    <th className="pb-2 pr-4">Role</th>
-                    <th className="pb-2 pr-4">Status</th>
-                    <th className="pb-2 pr-4">Created</th>
+                  <tr className="border-primary/20 text-muted-foreground border-b text-left text-[9px] tracking-widest uppercase">
+                    <th className="pr-4 pb-2">Name</th>
+                    <th className="pr-4 pb-2">Username</th>
+                    <th className="pr-4 pb-2">Email</th>
+                    <th className="pr-4 pb-2">Role</th>
+                    <th className="pr-4 pb-2">Status</th>
+                    <th className="pr-4 pb-2">Created</th>
                     <th className="pb-2">Actions</th>
                   </tr>
                 </thead>
@@ -92,13 +94,13 @@ export default async function AdminPage({
                   {users.map((user) => (
                     <tr
                       key={user.id}
-                      className="border-b border-primary/10 align-top text-foreground/80"
+                      className="border-primary/10 text-foreground/80 border-b align-top"
                     >
                       <td className="py-2 pr-4">{user.name}</td>
-                      <td className="py-2 pr-4 text-foreground/50">
+                      <td className="text-foreground/50 py-2 pr-4">
                         {user.username ?? "—"}
                       </td>
-                      <td className="py-2 pr-4 text-foreground/50">
+                      <td className="text-foreground/50 py-2 pr-4">
                         {user.email}
                       </td>
                       <td className="py-2 pr-4">
@@ -117,7 +119,7 @@ export default async function AdminPage({
                           <span className="text-destructive">
                             Banned
                             {user.banReason && (
-                              <span className="block text-[9px] text-destructive/60">
+                              <span className="text-destructive/60 block text-[9px]">
                                 {user.banReason}
                               </span>
                             )}
@@ -126,7 +128,7 @@ export default async function AdminPage({
                           <span className="text-green-500">Active</span>
                         )}
                       </td>
-                      <td className="py-2 pr-4 text-[10px] text-foreground/40">
+                      <td className="text-foreground/40 py-2 pr-4 text-[10px]">
                         {new Date(user.createdAt).toLocaleDateString()}
                       </td>
                       <td className="py-2">
@@ -145,7 +147,7 @@ export default async function AdminPage({
                     <tr>
                       <td
                         colSpan={7}
-                        className="py-8 text-center text-foreground/40"
+                        className="text-foreground/40 py-8 text-center"
                       >
                         No users found
                       </td>
@@ -156,24 +158,24 @@ export default async function AdminPage({
             </div>
 
             {/* User cards - mobile */}
-            <div className="md:hidden space-y-3">
+            <div className="space-y-3 md:hidden">
               {users.map((user) => (
                 <div
                   key={user.id}
-                  className="border border-primary/10 rounded-md p-3 space-y-2 font-mono text-xs"
+                  className="border-primary/10 space-y-2 rounded-md border p-3 font-mono text-xs"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
-                      <p className="font-bold text-foreground/80 truncate">
+                      <p className="text-foreground/80 truncate font-bold">
                         {user.name}
                       </p>
                       {user.username && (
-                        <p className="text-[10px] text-foreground/50 truncate">
+                        <p className="text-foreground/50 truncate text-[10px]">
                           @{user.username}
                         </p>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 shrink-0">
+                    <div className="flex shrink-0 items-center gap-2">
                       <span
                         className={
                           user.role === "admin"
@@ -188,13 +190,13 @@ export default async function AdminPage({
                           Banned
                         </span>
                       ) : (
-                        <span className="text-green-500 text-[10px]">
+                        <span className="text-[10px] text-green-500">
                           Active
                         </span>
                       )}
                     </div>
                   </div>
-                  <p className="text-[10px] text-foreground/50 truncate">
+                  <p className="text-foreground/50 truncate text-[10px]">
                     {user.email}
                   </p>
                   <AdminActions
@@ -208,7 +210,7 @@ export default async function AdminPage({
                 </div>
               ))}
               {users.length === 0 && (
-                <p className="py-8 text-center font-mono text-xs text-foreground/40">
+                <p className="text-foreground/40 py-8 text-center font-mono text-xs">
                   No users found
                 </p>
               )}

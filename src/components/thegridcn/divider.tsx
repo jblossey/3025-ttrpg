@@ -1,6 +1,7 @@
 "use client";
 
 import type * as React from "react";
+
 import { cn } from "@/lib/utils";
 
 interface DividerProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -24,19 +25,19 @@ export function Divider({
         data-slot="tron-divider"
         className={cn(
           "relative inline-flex self-stretch",
-          variant === "default" && "w-px bg-primary/20",
+          variant === "default" && "bg-primary/20 w-px",
           variant === "glow" &&
-            "w-px bg-primary/30 shadow-[0_0_4px_var(--primary)]",
+            "bg-primary/30 w-px shadow-[0_0_4px_var(--primary)]",
           variant === "dashed" &&
-            "w-px border-l border-dashed border-primary/30",
-          variant === "circuit" && "w-px bg-primary/20",
+            "border-primary/30 w-px border-l border-dashed",
+          variant === "circuit" && "bg-primary/20 w-px",
           className,
         )}
         {...props}
       >
         {variant === "circuit" && (
           <div
-            className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-primary/60"
+            className="bg-primary/60 absolute top-0 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full"
             style={{ animation: "dividerDot 3s ease-in-out infinite" }}
           />
         )}
@@ -54,18 +55,18 @@ export function Divider({
       <div
         className={cn(
           "flex-1",
-          variant === "default" && "h-px bg-primary/20",
+          variant === "default" && "bg-primary/20 h-px",
           variant === "glow" &&
-            "h-px bg-primary/30 shadow-[0_0_4px_var(--primary)]",
-          variant === "dashed" && "border-t border-dashed border-primary/30",
-          variant === "circuit" && "h-px bg-primary/20",
+            "bg-primary/30 h-px shadow-[0_0_4px_var(--primary)]",
+          variant === "dashed" && "border-primary/30 border-t border-dashed",
+          variant === "circuit" && "bg-primary/20 h-px",
         )}
       >
         {variant === "circuit" && (
           <>
-            <div className="absolute left-0 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-primary/40" />
+            <div className="bg-primary/40 absolute top-1/2 left-0 h-1.5 w-1.5 -translate-y-1/2 rounded-full" />
             <div
-              className="absolute top-1/2 h-1 w-1 -translate-y-1/2 rounded-full bg-primary/80"
+              className="bg-primary/80 absolute top-1/2 h-1 w-1 -translate-y-1/2 rounded-full"
               style={{ animation: "dividerDot 3s ease-in-out infinite" }}
             />
           </>
@@ -74,7 +75,7 @@ export function Divider({
 
       {/* Label */}
       {label && (
-        <span className="mx-3 shrink-0 font-mono text-[9px] uppercase tracking-widest text-foreground/30">
+        <span className="text-foreground/30 mx-3 shrink-0 font-mono text-[9px] tracking-widest uppercase">
           {label}
         </span>
       )}
@@ -83,23 +84,29 @@ export function Divider({
       <div
         className={cn(
           "flex-1",
-          variant === "default" && "h-px bg-primary/20",
+          variant === "default" && "bg-primary/20 h-px",
           variant === "glow" &&
-            "h-px bg-primary/30 shadow-[0_0_4px_var(--primary)]",
-          variant === "dashed" && "border-t border-dashed border-primary/30",
-          variant === "circuit" && "h-px bg-primary/20",
+            "bg-primary/30 h-px shadow-[0_0_4px_var(--primary)]",
+          variant === "dashed" && "border-primary/30 border-t border-dashed",
+          variant === "circuit" && "bg-primary/20 h-px",
         )}
       >
         {variant === "circuit" && (
-          <div className="absolute right-0 top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-primary/40" />
+          <div className="bg-primary/40 absolute top-1/2 right-0 h-1.5 w-1.5 -translate-y-1/2 rounded-full" />
         )}
       </div>
 
       <style jsx>{`
         @keyframes dividerDot {
-          0% { left: 0%; }
-          50% { left: calc(100% - 4px); }
-          100% { left: 0%; }
+          0% {
+            left: 0%;
+          }
+          50% {
+            left: calc(100% - 4px);
+          }
+          100% {
+            left: 0%;
+          }
         }
       `}</style>
     </div>

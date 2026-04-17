@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Fira_Mono, Orbitron, Rajdhani } from "next/font/google";
 import { headers } from "next/headers";
+
 import { getAllCharacters } from "@/app/actions/character-actions";
 import { CharacterNav } from "@/components/character-nav";
 import { ImpersonationBanner } from "@/components/impersonation-banner";
 import { auth } from "@/lib/auth";
 import { isPrivilegedRole } from "@/lib/roles";
+
 import "./globals.css";
 
 const orbitron = Orbitron({

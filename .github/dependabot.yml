@@ -16,7 +16,7 @@ updates:
         update-types:
           - "patch"
 
-    # Minor: group all into a single PR
+      # Minor: group all into a single PR
       npm-minor-updates:
         update-types:
           - "minor"

@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
 import { GlowContainer } from "@/components/thegridcn/glow-container";
 import { HUDFrame } from "@/components/thegridcn/hud-frame";
 import { Button } from "@/components/ui/button";
@@ -41,7 +42,11 @@ export default function LoginPage() {
     const { error: passkeyError } = await authClient.signIn.passkey();
 
     if (passkeyError) {
-      setError(passkeyError.message ?? "Passkey authentication failed");
+      const message =
+        typeof passkeyError === "string"
+          ? passkeyError
+          : String(passkeyError.message ?? "Passkey authentication failed");
+      setError(message);
       setLoading(false);
       return;
     }
@@ -54,15 +59,15 @@ export default function LoginPage() {
       <GlowContainer
         intensity="sm"
         hover={false}
-        className="w-full max-w-md bg-transparent border-none p-0"
+        className="w-full max-w-md border-none bg-transparent p-0"
       >
         <HUDFrame label="System Access">
           <div className="space-y-6">
             <div className="text-center">
-              <h1 className="text-2xl font-bold tracking-wider text-primary glow-text">
+              <h1 className="text-primary glow-text text-2xl font-bold tracking-wider">
                 3025
               </h1>
-              <p className="mt-1 font-mono text-xs text-muted-foreground">
+              <p className="text-muted-foreground mt-1 font-mono text-xs">
                 IDENTITY VERIFICATION REQUIRED
               </p>
             </div>
@@ -87,13 +92,13 @@ export default function LoginPage() {
               />
 
               {error && (
-                <p className="font-mono text-xs text-destructive">{error}</p>
+                <p className="text-destructive font-mono text-xs">{error}</p>
               )}
 
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full glow-sm"
+                className="glow-sm w-full"
                 size="lg"
               >
                 {loading ? "Authenticating..." : "Authenticate"}
@@ -102,10 +107,10 @@ export default function LoginPage() {
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-primary/20" />
+                <div className="border-primary/20 w-full border-t" />
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-background px-2 font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+                <span className="bg-background text-muted-foreground px-2 font-mono text-[9px] tracking-widest uppercase">
                   or
                 </span>
               </div>

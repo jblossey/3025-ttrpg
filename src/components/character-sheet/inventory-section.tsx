@@ -1,8 +1,10 @@
 "use client";
 
 import { GripVerticalIcon, Package, PlusIcon, XIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 import { SectionWrapper } from "./section-wrapper";
 
 interface Item {
@@ -54,7 +56,7 @@ export function InventorySection({
     >
       <div className="space-y-2">
         {/* Header */}
-        <div className="hidden sm:flex items-center gap-2 px-2 py-1 text-xs font-mono text-muted-foreground uppercase">
+        <div className="text-muted-foreground hidden items-center gap-2 px-2 py-1 font-mono text-xs uppercase sm:flex">
           <div className="w-6" />
           <div className="flex-1">Item Designation</div>
           <div className="w-16 text-center">QTY</div>
@@ -63,9 +65,9 @@ export function InventorySection({
 
         {/* Items list */}
         {items.length === 0 ? (
-          <div className="text-center py-6 border border-dashed border-border rounded">
-            <Package className="w-6 h-6 text-muted-foreground mx-auto mb-2" />
-            <p className="text-sm font-mono text-muted-foreground">
+          <div className="border-border rounded border border-dashed py-6 text-center">
+            <Package className="text-muted-foreground mx-auto mb-2 h-6 w-6" />
+            <p className="text-muted-foreground font-mono text-sm">
               INVENTORY EMPTY
             </p>
           </div>
@@ -74,12 +76,12 @@ export function InventorySection({
             {items.map((item, index) => (
               <div
                 key={item.id}
-                className="flex items-center gap-2 p-2 bg-secondary/30 border border-border rounded group hover:border-primary/30 transition-colors"
+                className="bg-secondary/30 border-border group hover:border-primary/30 flex items-center gap-2 rounded border p-2 transition-colors"
               >
                 <div className="text-muted-foreground/50 cursor-grab">
                   <GripVerticalIcon size={16} />
                 </div>
-                <span className="text-xs font-mono text-primary w-6">
+                <span className="text-primary w-6 font-mono text-xs">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <Input
@@ -88,7 +90,7 @@ export function InventorySection({
                     updateItem(index, { ...item, name: e.target.value })
                   }
                   placeholder="Item name..."
-                  className="flex-1 h-8 bg-background/50 border-border/50 text-sm font-mono"
+                  className="bg-background/50 border-border/50 h-8 flex-1 font-mono text-sm"
                 />
                 <input
                   type="number"
@@ -100,13 +102,13 @@ export function InventorySection({
                     })
                   }
                   min={1}
-                  className="w-16 h-8 text-center font-mono text-sm bg-background/50 border border-border rounded"
+                  className="bg-background/50 border-border h-8 w-16 rounded border text-center font-mono text-sm"
                 />
                 <Button
                   variant="ghost"
                   size="icon-sm"
                   onClick={() => removeItem(index)}
-                  className="text-muted-foreground hover:text-destructive md:opacity-0 md:group-hover:opacity-100 transition-opacity"
+                  className="text-muted-foreground hover:text-destructive transition-opacity md:opacity-0 md:group-hover:opacity-100"
                 >
                   <XIcon size={16} />
                 </Button>
@@ -119,18 +121,18 @@ export function InventorySection({
         <Button
           onClick={addItem}
           variant="outline"
-          className="w-full border-dashed border-primary/50 text-primary hover:bg-primary/10 hover:border-primary"
+          className="border-primary/50 text-primary hover:bg-primary/10 hover:border-primary w-full border-dashed"
         >
           <PlusIcon size={16} className="mr-2" />
           <span className="font-mono text-sm">ADD ITEM</span>
         </Button>
 
         {/* Footer stats */}
-        <div className="flex justify-between items-center pt-2 border-t border-border/50">
-          <span className="text-xs font-mono text-muted-foreground">
+        <div className="border-border/50 flex items-center justify-between border-t pt-2">
+          <span className="text-muted-foreground font-mono text-xs">
             ITEMS: {items.length}
           </span>
-          <span className="text-xs font-mono text-muted-foreground">
+          <span className="text-muted-foreground font-mono text-xs">
             TOTAL QTY: {items.reduce((acc, item) => acc + item.quantity, 0)}
           </span>
         </div>

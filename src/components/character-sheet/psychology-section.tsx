@@ -5,7 +5,9 @@ import {
   RefreshCwIcon,
   ShieldCheckIcon,
 } from "lucide-react";
+
 import { Textarea } from "@/components/ui/textarea";
+
 import { SectionWrapper } from "./section-wrapper";
 
 interface Psychology {
@@ -46,14 +48,14 @@ function ConvictionField({
 
   return (
     <div
-      className={`bg-secondary/30 border border-border rounded p-4 border-l-4 ${borderColors[variant]}`}
+      className={`bg-secondary/30 border-border rounded border border-l-4 p-4 ${borderColors[variant]}`}
     >
-      <div className="flex items-center gap-2 mb-3">
+      <div className="mb-3 flex items-center gap-2">
         {icon}
-        <span className="text-xs font-mono text-muted-foreground">
+        <span className="text-muted-foreground font-mono text-xs">
           [{code}]
         </span>
-        <span className="text-sm font-bold uppercase tracking-wider">
+        <span className="text-sm font-bold tracking-wider uppercase">
           {label}
         </span>
       </div>
@@ -61,11 +63,11 @@ function ConvictionField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="min-h-20 bg-background/50 border-border/50 resize-none font-mono text-sm"
+        className="bg-background/50 border-border/50 min-h-20 resize-none font-mono text-sm"
       />
-      <div className="flex items-center gap-2 mt-2">
-        <div className="h-px flex-1 bg-border" />
-        <span className="text-[10px] font-mono text-muted-foreground uppercase">
+      <div className="mt-2 flex items-center gap-2">
+        <div className="bg-border h-px flex-1" />
+        <span className="text-muted-foreground font-mono text-[10px] uppercase">
           {value.length}/500
         </span>
       </div>

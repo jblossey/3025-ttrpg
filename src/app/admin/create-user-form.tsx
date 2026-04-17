@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
 import { HUDFrame } from "@/components/thegridcn/hud-frame";
 import { Button } from "@/components/ui/button";
 import { TextInput } from "@/components/ui/text-input";
@@ -83,7 +84,7 @@ export function CreateUserForm() {
   return (
     <HUDFrame label="Create User">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <TextInput
             label="Name"
             placeholder="Full name"
@@ -122,12 +123,12 @@ export function CreateUserForm() {
         </div>
 
         <div className="space-y-1">
-          <label className="block font-mono text-[9px] uppercase tracking-widest text-foreground/40">
+          <label className="text-foreground/40 block font-mono text-[9px] tracking-widest uppercase">
             Role
             <select
               value={role}
               onChange={(e) => setRole(e.target.value as "user" | "admin")}
-              className="mt-1 block w-full rounded border border-primary/20 bg-card/60 px-3 py-1.5 font-mono text-[10px] text-foreground/80 outline-none backdrop-blur-sm transition-all focus:border-primary/40 focus:shadow-[0_0_8px_rgba(var(--primary-rgb,0,180,255),0.1)]"
+              className="border-primary/20 bg-card/60 text-foreground/80 focus:border-primary/40 mt-1 block w-full rounded border px-3 py-1.5 font-mono text-[10px] backdrop-blur-sm transition-all outline-none focus:shadow-[0_0_8px_rgba(var(--primary-rgb,0,180,255),0.1)]"
             >
               <option value="user">User</option>
               <option value="admin">Admin</option>
@@ -135,7 +136,7 @@ export function CreateUserForm() {
           </label>
         </div>
 
-        {error && <p className="font-mono text-xs text-destructive">{error}</p>}
+        {error && <p className="text-destructive font-mono text-xs">{error}</p>}
         {success && (
           <p className="font-mono text-xs text-green-500">{success}</p>
         )}

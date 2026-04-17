@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { TextInput } from "@/components/ui/text-input";
 
@@ -47,14 +48,14 @@ export function UserFilters() {
           size="sm"
         />
         <div className="space-y-1">
-          <label className="block font-mono text-[9px] uppercase tracking-widest text-foreground/40">
+          <label className="text-foreground/40 block font-mono text-[9px] tracking-widest uppercase">
             Field
             <select
               value={searchField}
               onChange={(e) =>
                 setSearchField(e.target.value as "name" | "email")
               }
-              className="mt-1 block rounded border border-primary/20 bg-card/60 px-2 py-1.5 font-mono text-[10px] text-foreground/80 outline-none backdrop-blur-sm focus:border-primary/40"
+              className="border-primary/20 bg-card/60 text-foreground/80 focus:border-primary/40 mt-1 block rounded border px-2 py-1.5 font-mono text-[10px] backdrop-blur-sm outline-none"
             >
               <option value="name">Name</option>
               <option value="email">Email</option>
@@ -105,7 +106,7 @@ export function UserPagination({
 
   return (
     <div className="flex items-center justify-between">
-      <span className="font-mono text-[9px] text-foreground/40">
+      <span className="text-foreground/40 font-mono text-[9px]">
         {total} users · Page {currentPage} of {totalPages}
       </span>
       <div className="flex gap-1">

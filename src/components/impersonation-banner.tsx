@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 
@@ -18,7 +19,7 @@ export function ImpersonationBanner({
   }
 
   return (
-    <div className="fixed left-0 right-0 top-0 z-50 flex items-center justify-center gap-4 border-b border-yellow-500/30 bg-yellow-500/10 px-4 py-2 backdrop-blur-sm">
+    <div className="fixed top-0 right-0 left-0 z-50 flex items-center justify-center gap-4 border-b border-yellow-500/30 bg-yellow-500/10 px-4 py-2 backdrop-blur-sm">
       <span className="font-mono text-xs text-yellow-400">
         ⚠ Impersonating: {impersonatingAs}
       </span>

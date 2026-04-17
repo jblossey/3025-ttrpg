@@ -1,6 +1,7 @@
 "use client";
 
 import type * as React from "react";
+
 import { cn } from "@/lib/utils";
 
 interface HUDFrameProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -17,23 +18,23 @@ export function HUDFrame({
     <div
       data-slot="tron-hud-frame"
       className={cn(
-        "relative border border-primary/30 bg-background/50 backdrop-blur-sm",
+        "border-primary/30 bg-background/50 relative border backdrop-blur-sm",
         className,
       )}
       {...props}
     >
       {/* Top left corner */}
-      <div className="absolute -left-px -top-px h-4 w-4 border-l-2 border-t-2 border-primary" />
+      <div className="border-primary absolute -top-px -left-px h-4 w-4 border-t-2 border-l-2" />
       {/* Top right corner */}
-      <div className="absolute -right-px -top-px h-4 w-4 border-r-2 border-t-2 border-primary" />
+      <div className="border-primary absolute -top-px -right-px h-4 w-4 border-t-2 border-r-2" />
       {/* Bottom left corner */}
-      <div className="absolute -bottom-px -left-px h-4 w-4 border-b-2 border-l-2 border-primary" />
+      <div className="border-primary absolute -bottom-px -left-px h-4 w-4 border-b-2 border-l-2" />
       {/* Bottom right corner */}
-      <div className="absolute -bottom-px -right-px h-4 w-4 border-b-2 border-r-2 border-primary" />
+      <div className="border-primary absolute -right-px -bottom-px h-4 w-4 border-r-2 border-b-2" />
 
       {/* Label */}
       {label && (
-        <div className="absolute -top-3 left-4 bg-background px-2 text-[10px] uppercase tracking-widest text-primary">
+        <div className="bg-background text-primary absolute -top-3 left-4 px-2 text-[10px] tracking-widest uppercase">
           {label}
         </div>
       )}

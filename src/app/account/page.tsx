@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
 import { Divider } from "@/components/thegridcn/divider";
 import { GlowContainer } from "@/components/thegridcn/glow-container";
 import { HUDFrame } from "@/components/thegridcn/hud-frame";
@@ -34,7 +35,7 @@ export default function AccountPage() {
   if (isPending) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="font-mono text-xs text-muted-foreground">Loading...</p>
+        <p className="text-muted-foreground font-mono text-xs">Loading...</p>
       </div>
     );
   }
@@ -117,15 +118,15 @@ export default function AccountPage() {
       <GlowContainer
         intensity="sm"
         hover={false}
-        className="w-full max-w-md bg-transparent border-none p-0"
+        className="w-full max-w-md border-none bg-transparent p-0"
       >
         <HUDFrame label="Account Settings">
           <div className="space-y-5 sm:space-y-6">
             <div className="text-center">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-wider text-primary glow-text">
+              <h1 className="text-primary glow-text text-xl font-bold tracking-wider sm:text-2xl">
                 ACCOUNT
               </h1>
-              <p className="mt-1 font-mono text-xs text-muted-foreground">
+              <p className="text-muted-foreground mt-1 font-mono text-xs">
                 {session.user.username ?? session.user.name}
               </p>
             </div>
@@ -133,7 +134,7 @@ export default function AccountPage() {
             {/* Change Username */}
             <form onSubmit={handleChangeUsername} className="space-y-4">
               <Divider label="Change Username" variant="glow" />
-              <p className="font-mono text-[10px] text-muted-foreground">
+              <p className="text-muted-foreground font-mono text-[10px]">
                 Current: {session.user.username ?? "Not set"}
               </p>
               <TextInput
@@ -192,7 +193,7 @@ export default function AccountPage() {
                 required
               />
               {passwordError && (
-                <p className="font-mono text-xs text-destructive">
+                <p className="text-destructive font-mono text-xs">
                   {passwordError}
                 </p>
               )}

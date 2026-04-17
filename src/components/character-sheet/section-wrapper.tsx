@@ -2,6 +2,7 @@
 
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
+
 import { HUDFrame } from "@/components/thegridcn/hud-frame";
 import {
   Collapsible,
@@ -9,6 +10,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { cn } from "@/lib/utils";
+
 import { Divider } from "../thegridcn/divider";
 
 interface SectionWrapperProps {
@@ -37,19 +39,19 @@ export function SectionWrapper({
         className={cn("transition-all duration-200", className)}
       >
         <CollapsibleTrigger className="w-full">
-          <div className="flex items-center justify-end hover:bg-secondary/50 transition-colors cursor-pointer -mt-2 -mx-4 px-4 py-2">
+          <div className="hover:bg-secondary/50 -mx-4 -mt-2 flex cursor-pointer items-center justify-end px-4 py-2 transition-colors">
             <div className="flex items-center gap-2">
               {!isOpen && collapsedSummary && (
-                <span className="text-[10px] font-mono text-muted-foreground/80 hidden sm:block">
+                <span className="text-muted-foreground/80 hidden font-mono text-[10px] sm:block">
                   {collapsedSummary}
                 </span>
               )}
-              <span className="text-xs font-mono text-muted-foreground">
+              <span className="text-muted-foreground font-mono text-xs">
                 {isOpen ? "EXPANDED" : "COLLAPSED"}
               </span>
               <ChevronDown
                 className={cn(
-                  "h-4 w-4 text-primary transition-transform duration-200",
+                  "text-primary h-4 w-4 transition-transform duration-200",
                   isOpen && "rotate-180",
                 )}
               />

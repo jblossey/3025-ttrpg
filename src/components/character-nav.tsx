@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
+
 import { cn } from "@/lib/utils";
 
 interface CharacterNavItem {
@@ -25,12 +26,12 @@ export function CharacterNav({
   return (
     <div
       className={cn(
-        "fixed left-0 right-0 z-40 border-b border-primary/20 bg-background/95 backdrop-blur-sm",
+        "border-primary/20 bg-background/95 fixed right-0 left-0 z-40 border-b backdrop-blur-sm",
         isImpersonating ? "top-10" : "top-0",
       )}
     >
       <div className="mx-auto flex max-w-5xl items-center gap-1 overflow-x-auto px-4 py-1.5">
-        <span className="mr-2 shrink-0 font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
+        <span className="text-muted-foreground mr-2 shrink-0 font-mono text-[9px] tracking-widest uppercase">
           Characters
         </span>
         {characters.map((c) => (

@@ -1,10 +1,10 @@
 "use client";
 
 import type * as React from "react";
+
 import { cn } from "@/lib/utils";
 
-export interface LocationDisplayProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface LocationDisplayProps extends React.HTMLAttributes<HTMLDivElement> {
   sector?: string;
   grid?: string;
   coordinates?: string;
