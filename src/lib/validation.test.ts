@@ -88,7 +88,7 @@ describe("usernameSchema", () => {
   });
 
   it("throws on invalid username", () => {
-    expect(() => usernameSchema.parse("INVALID")).toThrow();
+    expect(() => usernameSchema.parse("INVALID")).toThrow(Error);
   });
 });
 
@@ -98,6 +98,6 @@ describe("passwordSchema", () => {
   });
 
   it("throws on weak password", () => {
-    expect(() => passwordSchema.parse("weak")).toThrow();
+    expect(() => passwordSchema.parse("weak")).toThrow(Error);
   });
 });
